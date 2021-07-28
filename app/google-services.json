@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "243963852336",
+    "project_id": "cigarchat-92e27",
+    "storage_bucket": "cigarchat-92e27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243963852336:android:64c8bd8df4eb4795b69ff5",
+        "android_client_info": {
+          "package_name": "com.nkrute.cigarchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243963852336-6b80d6s7od9lubts74vravsbk8tb5lkl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB76_HMlXK8uIWMKq5wZVQDI2bNieaFFow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243963852336-6b80d6s7od9lubts74vravsbk8tb5lkl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

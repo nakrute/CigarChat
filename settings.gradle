@@ -1,0 +1,2 @@
+rootProject.name = "Cigar Chat"
+include ':app'
