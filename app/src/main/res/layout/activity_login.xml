@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Login"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:gravity="center_horizontal"
         android:textSize="25sp"/>
 
@@ -60,6 +60,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <!-- Text View Forgot password -->
+    <TextView
+        android:id="@+id/recoverPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Forgot Password? Recover"
+        android:layout_below="@id/loginBtn"
+        android:textColor="@color/colorWhite"/>
+
     <!-- Register Activity -->
     <TextView
         android:id="@+id/nothave_accountTv"
@@ -69,5 +79,6 @@
         android:textAlignment="center"
         android:layout_below="@id/loginBtn"
         android:layout_marginTop="30dp"
-        android:textColor="@color/colorBlack"/>
+        android:textColor="@color/colorWhite"
+        android:layout_marginBottom="20dp"/>
 </RelativeLayout>

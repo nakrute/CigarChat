@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Register"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:gravity="center_horizontal"
         android:textSize="25sp"/>
 
