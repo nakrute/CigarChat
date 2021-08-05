@@ -1,4 +1,4 @@
-package com.nkrute.cigarchat;
+package com.nkrute.cigarchat.models;
 
 public class ModelUser {
     // use same name  as in database

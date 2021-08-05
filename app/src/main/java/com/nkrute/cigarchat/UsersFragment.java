@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nkrute.cigarchat.adapters.AdapterUsers;
+import com.nkrute.cigarchat.models.ModelUser;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -76,6 +76,14 @@ public class DashboardActivity extends AppCompatActivity {
                             ft3.replace(R.id.content, fragment3, "");
                             ft3.commit();
                             return true;
+                        case R.id.nav_chat:
+                            // users fragment transaction
+                            actionBar.setTitle("Chats");
+                            ChatListFragment fragment4 = new ChatListFragment();
+                            androidx.fragment.app.FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
+                            ft4.replace(R.id.content, fragment4, "");
+                            ft4.commit();
+                            return true;
                     }
                     return false;
                 }

@@ -1,18 +1,19 @@
-package com.nkrute.cigarchat;
+package com.nkrute.cigarchat.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.nkrute.cigarchat.ChatActivity;
+import com.nkrute.cigarchat.R;
+import com.nkrute.cigarchat.models.ModelUser;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AdapterUsers.MyHolder myHolder, int i) {
+        String hisUID = userList.get(i).getUid();
         String userImage = userList.get(i).getImage();
         String userName = userList.get(i).getName();
         String userEmail = userList.get(i).getEmail();
@@ -54,12 +56,10 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
         */
 
         //handle item click
-        myHolder.itemView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, ""+userEmail, Toast.LENGTH_SHORT).show();
-            }
+        myHolder.itemView.setOnClickListener((v) -> {
+            Intent intent = new Intent(context, ChatActivity.class);
+            intent.putExtra("hisUid", hisUID);
+            context.startActivity(intent);
         });
     }
 
