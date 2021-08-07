@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nkrute.cigarchat.ChatActivity;
 import com.nkrute.cigarchat.R;
 import com.nkrute.cigarchat.models.ModelUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -46,14 +48,14 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
         //set data
         myHolder.mNameTv.setText(userName);
         myHolder.mEmailTv.setText(userEmail);
-        /*
+
         try {
             Picasso.get().load(userImage).placeholder(R.drawable.ic_default_img).into(myHolder.mAvatarIv);
         }
         catch (Exception e) {
 
         }
-        */
+
 
         //handle item click
         myHolder.itemView.setOnClickListener((v) -> {
@@ -71,7 +73,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
     //view holder class
     class MyHolder extends RecyclerView.ViewHolder{
 
-        // ImageView mAvatarIv;
+        ImageView mAvatarIv;
         TextView mNameTv, mEmailTv;
 
         public MyHolder(@NonNull View itemView) {
