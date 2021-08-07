@@ -41,7 +41,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
         String hisUID = userList.get(i).getUid();
         String userImage = userList.get(i).getImage();
         String userName = userList.get(i).getName();
-        String userEmail = userList.get(i).getEmail();
+        final String userEmail = userList.get(i).getEmail();
 
         //set data
         myHolder.mNameTv.setText(userName);
