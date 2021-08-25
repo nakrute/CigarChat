@@ -32,7 +32,7 @@ import com.nkrute.cigarchat.models.ModelUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersFragment extends Fragment {
+public class  UsersFragment extends Fragment {
 
     RecyclerView recyclerView;
     AdapterUsers adapterUsers;
@@ -175,6 +175,9 @@ public class UsersFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // inflating
         inflater.inflate(R.menu.menu_main, menu);
+
+        // hide add post icon from this fragment
+        menu.findItem(R.id.action_add_post).setVisible(false);
 
         // search View
         MenuItem item = menu.findItem(R.id.action_search);
