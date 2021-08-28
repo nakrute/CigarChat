@@ -1,0 +1,4 @@
+Need to show pictures on posts
+Move search of posts to the home page
+Fix loading images on chats
+Fix buttons on Deleting messages, not showing up but there somehow
