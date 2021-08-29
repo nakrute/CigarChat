@@ -1,6 +1,8 @@
 package com.nkrute.cigarchat.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nkrute.cigarchat.ChatActivity;
 import com.nkrute.cigarchat.R;
+import com.nkrute.cigarchat.ThereProfileActivity;
 import com.nkrute.cigarchat.models.ModelUser;
 import com.squareup.picasso.Picasso;
 
@@ -59,9 +62,23 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
 
         //handle item click
         myHolder.itemView.setOnClickListener((v) -> {
-            Intent intent = new Intent(context, ChatActivity.class);
-            intent.putExtra("hisUid", hisUID);
-            context.startActivity(intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setItems(new String[]{"Profile","Chat"}, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+                        Intent intent = new Intent(context, ThereProfileActivity.class);
+                        intent.putExtra("uid", hisUID);
+                        context.startActivity(intent);
+                    }
+                    if (which == 1) {
+                        Intent intent = new Intent(context, ChatActivity.class);
+                        intent.putExtra("hisUid", hisUID);
+                        context.startActivity(intent);
+                    }
+                }
+            });
+            builder.create().show();
         });
     }
 

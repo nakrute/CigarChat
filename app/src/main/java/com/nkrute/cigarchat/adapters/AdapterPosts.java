@@ -1,6 +1,7 @@
 package com.nkrute.cigarchat.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nkrute.cigarchat.R;
+import com.nkrute.cigarchat.ThereProfileActivity;
 import com.nkrute.cigarchat.models.ModelPost;
 import com.squareup.picasso.Picasso;
 
@@ -102,6 +106,15 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             }
         });
 
+        holder.profileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ThereProfileActivity.class);
+                intent.putExtra("uid", uid);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -119,6 +132,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         TextView uNameTv, pTimeTv, pTitleTv, pDescriptionTv, pLikesTv;
         ImageButton moreBtn;
         Button likeBtn, commentBtn, shareBtn;
+        LinearLayout profileLayout;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -135,6 +149,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             likeBtn = itemView.findViewById(R.id.likeBtn);
             commentBtn = itemView.findViewById(R.id.commentBtn);
             shareBtn = itemView.findViewById(R.id.shareBtn);
+            profileLayout = itemView.findViewById(R.id.profileLayout);
 
         }
 
