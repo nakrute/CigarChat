@@ -290,13 +290,13 @@ public class AddPostActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void pickFromCamera() {
+    private void pickFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
     }
 
-    private void pickFromGallery() {
+    private void pickFromCamera() {
         ContentValues cv = new ContentValues();
         cv.put(MediaStore.Images.Media.TITLE, "Temp Pick");
         cv.put(MediaStore.Images.Media.DESCRIPTION, "Temp Description");

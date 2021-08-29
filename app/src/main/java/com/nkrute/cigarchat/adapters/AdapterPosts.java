@@ -1,15 +1,20 @@
 package com.nkrute.cigarchat.adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +23,16 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nkrute.cigarchat.R;
 import com.nkrute.cigarchat.ThereProfileActivity;
 import com.nkrute.cigarchat.models.ModelPost;
@@ -32,9 +47,12 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
     Context context;
     List<ModelPost> postList;
 
+    String myUid;
+
     public AdapterPosts(Context context, List<ModelPost> postList) {
         this.context = context;
         this.postList = postList;
+        myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @NonNull
@@ -73,6 +91,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             //holder.pImageIv.setVisibility(View.GONE);
         }
         else {
+            //holder.pImageIv.setVisibility(View.VISIBLE);
             try {
                 Picasso.get().load(pImage).into(holder.pImageIv);
             }
@@ -84,7 +103,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         holder.moreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "More", Toast.LENGTH_SHORT).show();
+                showMoreOptions(holder.moreBtn, uid, myUid,pId, pImage);
             }
         });
         holder.likeBtn.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +134,104 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             }
         });
 
+    }
+
+    private void showMoreOptions(ImageButton moreBtn, String uid, String myUid, String pId, String pImage) {
+        // create pop up menu
+        PopupMenu popupMenu = new PopupMenu(context, moreBtn, Gravity.END);
+
+        //show delete options in only post(s)
+        if (uid.equals(myUid)) {
+            popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
+        }
+
+        // item click listener
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == 0) {
+                    // delete is clicked
+                    beginDelete(pId, pImage);
+                }
+                return false;
+            }
+            
+        });
+        //show menu
+        popupMenu.show();
+
+    }
+
+    private void beginDelete(String pId, String pImage) {
+        if (pImage.equals("noImage")) {
+            // post is without image
+            deleteWithoutImage(pId);
+        }
+        else {
+            // post has an image
+            deleteWithImage(pId, pImage);
+        }
+        
+    }
+
+    private void deleteWithoutImage(String pId) {
+        ProgressDialog pd = new ProgressDialog(context);
+        pd.setMessage("Deleting...");
+        Query fquery = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("pId").equalTo(pId);
+        fquery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds: snapshot.getChildren()) {
+                    ds.getRef().removeValue();
+                }
+                Toast.makeText(context, "Delete succesful", Toast.LENGTH_SHORT).show();
+                pd.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void deleteWithImage(String pId, String pImage) {
+        ProgressDialog pd = new ProgressDialog(context);
+        pd.setMessage("Deleting...");
+
+        StorageReference picRef = FirebaseStorage.getInstance().getReferenceFromUrl(pImage);
+        picRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //image deleted now delete database
+                        Query fquery = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("pId").equalTo(pId);
+                        fquery.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ds: snapshot.getChildren()) {
+                                    ds.getRef().removeValue();
+                                }
+                                Toast.makeText(context, "Delete succesful", Toast.LENGTH_SHORT).show();
+                                pd.dismiss();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
     }
 
     @Override
