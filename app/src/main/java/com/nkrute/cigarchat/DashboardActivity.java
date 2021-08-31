@@ -56,9 +56,6 @@ public class DashboardActivity extends AppCompatActivity {
         ft1.commit();
 
         checkUserStatus();
-
-        //update token
-        updateToken(FirebaseMessaging.getInstance().getToken());
     }
 
     @Override
@@ -129,6 +126,9 @@ public class DashboardActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("Current_USERID", mUID);
             editor.apply();
+
+            //update token
+            updateToken(FirebaseMessaging.getInstance().getToken());
         }
         else {
             // user is not signed in, go to main activity

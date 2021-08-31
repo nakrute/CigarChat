@@ -33,6 +33,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.nkrute.cigarchat.AddPostActivity;
 import com.nkrute.cigarchat.R;
 import com.nkrute.cigarchat.ThereProfileActivity;
 import com.nkrute.cigarchat.models.ModelPost;
@@ -143,6 +144,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         //show delete options in only post(s)
         if (uid.equals(myUid)) {
             popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
+            popupMenu.getMenu().add(Menu.NONE, 1, 0, "Edit");
         }
 
         // item click listener
@@ -154,6 +156,13 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                     // delete is clicked
                     beginDelete(pId, pImage);
                 }
+                else if (id == 1) {
+                    // edit is clicked
+                    Intent intent = new Intent(context, AddPostActivity.class);
+                    intent.putExtra("key", "editPost");
+                    intent.putExtra("editPostId", pId);
+                    context.startActivity(intent);
+                }
                 return false;
             }
             
@@ -162,6 +171,8 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         popupMenu.show();
 
     }
+
+
 
     private void beginDelete(String pId, String pImage) {
         if (pImage.equals("noImage")) {
