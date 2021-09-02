@@ -3,6 +3,8 @@ package com.nkrute.cigarchat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -34,10 +36,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.nkrute.cigarchat.adapters.AdapterComments;
+import com.nkrute.cigarchat.models.ModelComment;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class PostDetailActivity extends AppCompatActivity {
@@ -56,6 +62,11 @@ public class PostDetailActivity extends AppCompatActivity {
     ImageButton moreBtn;
     Button likeBtn, shareBtn;
     LinearLayout profileLayout;
+    RecyclerView recyclerView;
+
+    List<ModelComment> commentList;
+    AdapterComments adapterComments;
+
 
     //add comments views
     EditText commentEt;
@@ -89,6 +100,7 @@ public class PostDetailActivity extends AppCompatActivity {
         likeBtn = findViewById(R.id.likeBtn);
         shareBtn = findViewById(R.id.shareBtn);
         profileLayout = findViewById(R.id.profileLayout);
+        recyclerView = findViewById(R.id.recyclerView);
 
         commentEt = findViewById(R.id.commentEt);
         sendBtn = findViewById(R.id.sendBtn);
@@ -103,6 +115,9 @@ public class PostDetailActivity extends AppCompatActivity {
 
         //set subtime of actionbar
         actionBar.setSubtitle("SignedIn as:" +myEmail);
+
+        loadComments();
+
         //send comment button click
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +140,38 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void loadComments() {
+        //layout for recycler view
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        //set layout to recycler view
+        recyclerView.setLayoutManager(layoutManager);
+
+        //init comments list
+        commentList = new ArrayList<>();
+
+        //path of the post to put it to
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts").child(postId).child("Comments");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                commentList.clear();
+                for (DataSnapshot ds: snapshot.getChildren()) {
+                    ModelComment modelComment = ds.getValue(ModelComment.class);
+
+                    commentList.add(modelComment);
+                    adapterComments = new AdapterComments(getApplicationContext(), commentList);
+                    recyclerView.setAdapter(adapterComments);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void showMoreOptions() {
@@ -301,7 +348,7 @@ public class PostDetailActivity extends AppCompatActivity {
         }
 
         // each post will have a child "Comments" that will contain comments
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts").child(postId).child("Comment");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts").child(postId).child("Comments");
         String timeStamp = String.valueOf(System.currentTimeMillis());
 
         HashMap<String, Object> hashMap = new HashMap<>();
