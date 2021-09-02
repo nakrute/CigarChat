@@ -17,7 +17,7 @@
             android:background="@drawable/edittextstyle"
             android:padding="10dp"
             android:hint="Enter title"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -33,7 +33,7 @@
             android:id="@+id/pDescriptionEt"
             android:background="@drawable/edittextstyle"
             android:padding="10dp"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:hint="Enter description"
             android:inputType="textCapSentences|textMultiLine"
             android:minHeight="120dp"

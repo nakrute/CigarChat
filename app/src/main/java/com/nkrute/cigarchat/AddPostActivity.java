@@ -601,8 +601,10 @@ public class AddPostActivity extends AppCompatActivity {
             finish();
         }
     }
+
     @Override
     public boolean onSupportNavigateUp() {
+        onBackPressed();
         return super.onSupportNavigateUp();
     }
 
