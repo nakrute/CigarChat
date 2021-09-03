@@ -3,6 +3,9 @@ package com.nkrute.cigarchat.adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +45,8 @@ import com.nkrute.cigarchat.ThereProfileActivity;
 import com.nkrute.cigarchat.models.ModelPost;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -166,7 +172,19 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         holder.shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Share", Toast.LENGTH_SHORT).show();
+                // get image from imageview
+                //BitmapDrawable bitmapDrawable = (BitmapDrawable)holder.pImageIv.getDrawable();
+                BitmapDrawable bitmapDrawable;
+                bitmapDrawable = null;
+                if (bitmapDrawable == null) {
+                    //post without image
+                    shareTextOnly(pTitle, pDescription);
+                }
+                else {
+                    //post with image
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    shareImageAndText(pTitle, pDescription, bitmap);
+                }
             }
         });
 
@@ -179,6 +197,48 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             }
         });
 
+    }
+
+    private void shareImageAndText(String pTitle, String pDescription, Bitmap bitmap) {
+        String shareBody = pTitle + "\n" + pDescription;
+        Uri uri = saveImageToShare(bitmap);
+
+        //share intent
+        Intent sIntent = new Intent(Intent.ACTION_SEND);
+        sIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        sIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        sIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+        sIntent.setType("image/png");
+        context.startActivity(Intent.createChooser(sIntent, "Share via"));
+    }
+
+    private Uri saveImageToShare(Bitmap bitmap) {
+        File imageFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
+        try {
+            imageFolder.mkdirs();
+            File file = new File(imageFolder, "shared_image.png");
+
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(context, "com.nkrute.cigarchat.fileprovider", file);
+        }
+        catch (Exception e) {
+            Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return uri;
+    }
+
+    private void shareTextOnly(String pTitle, String pDescription) {
+        String shareBody = pTitle + "\n" + pDescription;
+        //share intent
+        Intent sIntent = new Intent(Intent.ACTION_SEND);
+        sIntent.setType("text/plain");
+        sIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+        sIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        context.startActivity(Intent.createChooser(sIntent, "Share Via"));
     }
 
     private void setLikes(final MyHolder holder, final String postKey) {
