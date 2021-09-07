@@ -4,3 +4,4 @@ Fix loading images on chats
 Fix buttons on Deleting messages, not showing up but there somehow
 Having issues with pictures being loaded due to a null reference on line 92/94 of AdapterPosts
 fix images on attempting to share
+Need to look into why attaching images doesn't work

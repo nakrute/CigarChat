@@ -69,6 +69,7 @@ public class PostDetailActivity extends AppCompatActivity {
     Button likeBtn, shareBtn;
     LinearLayout profileLayout;
     RecyclerView recyclerView;
+    ImageView imageIv;
 
     List<ModelComment> commentList;
     AdapterComments adapterComments;
