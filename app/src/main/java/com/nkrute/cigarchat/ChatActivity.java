@@ -446,7 +446,7 @@ public class ChatActivity extends AppCompatActivity {
         String fileNameAndPath = "ChatImages/"+"post_"+timeStamp;
 
         //get bitmap from image uri
-        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_rui);
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_rui);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] data = baos.toByteArray(); //covert image to bytes
@@ -682,7 +682,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == RESULT_OK) {
             if (requestCode == IMAGE_PICK_GALLERY_CODE) {
-                image_rui = data.getData();
+                Uri image_rui = data.getData();
                 try {
                     sendImageMessage(image_rui);
                 } catch (IOException e) {
