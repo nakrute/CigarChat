@@ -707,6 +707,9 @@ public class ProfileFragment extends Fragment {
         if (id == R.id.action_add_post) {
             startActivity(new Intent(getActivity(), AddPostActivity.class));
         }
+        else if (id==R.id.action_settings) {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 
