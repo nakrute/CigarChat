@@ -117,6 +117,20 @@ public class AddPostActivity extends AppCompatActivity {
 
         //get data through intent from previous activity
         Intent intent = getIntent();
+
+        String action = intent.getAction();
+        String type = intent.getType();
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                //text type data
+                handleSendText(intent);
+            }
+            else if (type.startsWith("image")) {
+                //image type data
+                handleSendImage(intent);
+            }
+        }
+
         String isUpdateKey = ""+intent.getStringExtra("key");
         String editPostId = ""+intent.getStringExtra("editPostId");
 
@@ -183,6 +197,25 @@ public class AddPostActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void handleSendImage(Intent intent) {
+        Uri imageURI = (Uri)intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (imageURI != null) {
+            image_rui = imageURI;
+            //set to image view
+            imageIv.setImageURI(image_rui);
+
+        }
+    }
+
+    private void handleSendText(Intent intent) {
+        //handle the received text
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            //set to description edit text
+            descriptionEt.setText(sharedText);
+        }
     }
 
     private void beginUpdate(String title, String description, String editPostId) {

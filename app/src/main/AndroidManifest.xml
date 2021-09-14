@@ -12,9 +12,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".MyApplication"
         android:theme="@style/Theme.CigarChat">
         <activity android:name=".PostDetailActivity"></activity>
-        <activity android:name=".AddPostActivity" />
+        <activity android:name=".AddPostActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="image/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ChatActivity"
             android:theme="@style/AppThemeNo" />
@@ -29,14 +41,6 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
 
-        <service
-            android:name=".notifications.FirebaseService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANT_ID_SERVICE" />
-            </intent-filter>
-        </service>
         <service
             android:name=".notifications.FirebaseMessaging"
             android:enabled="true"
