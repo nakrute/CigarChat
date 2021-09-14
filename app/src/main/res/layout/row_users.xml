@@ -47,6 +47,14 @@
                 android:text="Person Email"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/blockIv"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_unblock_green"/>
+
     </LinearLayout>
 
 
