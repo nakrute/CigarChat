@@ -39,6 +39,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nkrute.cigarchat.AddPostActivity;
 import com.nkrute.cigarchat.PostDetailActivity;
+import com.nkrute.cigarchat.PostLikedByActivity;
 import com.nkrute.cigarchat.R;
 import com.nkrute.cigarchat.ThereProfileActivity;
 import com.nkrute.cigarchat.models.ModelPost;
@@ -195,6 +196,15 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ThereProfileActivity.class);
                 intent.putExtra("uid", uid);
+                context.startActivity(intent);
+            }
+        });
+
+        holder.pLikesTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PostLikedByActivity.class);
+                intent.putExtra("postId", pId);
                 context.startActivity(intent);
             }
         });
