@@ -168,6 +168,32 @@ public class PostDetailActivity extends AppCompatActivity {
 
     }
 
+    private void addToHisNotifications(String hisUid, String pId, String notification) {
+        String timeStamp = ""+System.currentTimeMillis();
+
+        HashMap<Object, String> hashMap = new HashMap<>();
+        hashMap.put("pId", pId);
+        hashMap.put("timestamp", timeStamp);
+        hashMap.put("pUid", hisUid);
+        hashMap.put("notification", notification);
+        hashMap.put("sUid", myUid);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(hisUid).child("Notifications").child(timeStamp).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
     private void shareImageAndText(String pTitle, String pDescription, Bitmap bitmap) {
         String shareBody = pTitle + "\n" + pDescription;
         Uri uri = saveImageToShare(bitmap);
@@ -393,6 +419,8 @@ public class PostDetailActivity extends AppCompatActivity {
                     likesRef.child(postId).child(myUid).setValue("Liked");
                     mProcessLikes = false;
 
+                    addToHisNotifications(""+hisUid, ""+postId, "Liked your post");
+
                 }
             }
         }
@@ -439,6 +467,8 @@ public class PostDetailActivity extends AppCompatActivity {
                         Toast.makeText(PostDetailActivity.this, "Comment Added...", Toast.LENGTH_SHORT).show();
                         commentEt.setText("");
                         updateCommentCount();
+
+                        addToHisNotifications(""+hisUid, ""+postId, "Commented on your post");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
