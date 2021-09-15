@@ -42,6 +42,7 @@
         android:id="@+id/passwordTIL"
         android:layout_below="@id/emailTIL"
         app:passwordToggleTint="@color/black"
+        app:passwordToggleEnabled="true"
         >
         <EditText
             android:id="@+id/passwordEt"
