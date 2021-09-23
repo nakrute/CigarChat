@@ -77,10 +77,10 @@ public class GroupCreateActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setTitle("Create Group");
 
-        groupIconIv.findViewById(R.id.groupIconIv);
-        groupTitleEt.findViewById(R.id.groupTitleEt);
-        groupDescriptionEt.findViewById(R.id.groupDescriptionEt);
-        createGroupBtn.findViewById(R.id.createGroupBtn);
+        groupIconIv = findViewById(R.id.groupIconIv);
+        groupTitleEt = findViewById(R.id.groupTitleEt);
+        groupDescriptionEt = findViewById(R.id.groupDescriptionEt);
+        createGroupBtn = findViewById(R.id.createGroupBtn);
 
         // init permission arrays
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
