@@ -1,4 +1,4 @@
-package com.nkrute.cigarchat;
+package com.nkrute.cigarchat.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nkrute.cigarchat.GroupCreateActivity;
+import com.nkrute.cigarchat.MainActivity;
+import com.nkrute.cigarchat.R;
+import com.nkrute.cigarchat.SettingsActivity;
 import com.nkrute.cigarchat.adapters.AdapterUsers;
 import com.nkrute.cigarchat.models.ModelUser;
 
@@ -169,6 +173,9 @@ public class  UsersFragment extends Fragment {
         }
         else if (id==R.id.action_settings) {
             startActivity(new Intent(getActivity(), SettingsActivity.class));
+        }
+        else if (id==R.id.action_create_group) {
+            startActivity(new Intent(getActivity(), GroupCreateActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

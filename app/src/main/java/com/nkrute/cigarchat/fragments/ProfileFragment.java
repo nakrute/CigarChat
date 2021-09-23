@@ -1,4 +1,4 @@
-package com.nkrute.cigarchat;
+package com.nkrute.cigarchat.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -52,6 +52,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.nkrute.cigarchat.AddPostActivity;
+import com.nkrute.cigarchat.MainActivity;
+import com.nkrute.cigarchat.R;
+import com.nkrute.cigarchat.SettingsActivity;
 import com.nkrute.cigarchat.adapters.AdapterPosts;
 import com.nkrute.cigarchat.models.ModelPost;
 import com.squareup.picasso.Picasso;
@@ -745,6 +749,8 @@ public class ProfileFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // inflating
         inflater.inflate(R.menu.menu_main, menu);
+
+        menu.findItem(R.id.action_create_group).setVisible(false);
 
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);

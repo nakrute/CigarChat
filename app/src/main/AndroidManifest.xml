@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CigarChat">
-        <activity android:name=".PostLikedByActivity"></activity>
+        <activity android:name=".GroupCreateActivity"></activity>
+        <activity android:name=".PostLikedByActivity" />
         <activity android:name=".PostDetailActivity" />
         <activity android:name=".AddPostActivity">
             <intent-filter>

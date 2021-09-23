@@ -1,4 +1,4 @@
-package com.nkrute.cigarchat;
+package com.nkrute.cigarchat.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +27,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nkrute.cigarchat.AddPostActivity;
+import com.nkrute.cigarchat.MainActivity;
+import com.nkrute.cigarchat.R;
+import com.nkrute.cigarchat.SettingsActivity;
 import com.nkrute.cigarchat.adapters.AdapterPosts;
 import com.nkrute.cigarchat.models.ModelPost;
 
@@ -157,6 +161,8 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.menu_main, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
+        menu.findItem(R.id.action_create_group).setVisible(false);
+
         SearchView searchView = (SearchView)MenuItemCompat.getActionView(item);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

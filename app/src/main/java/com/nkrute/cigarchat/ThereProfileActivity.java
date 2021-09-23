@@ -224,6 +224,7 @@ public class ThereProfileActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(@Nullable Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.findItem(R.id.action_add_post).setVisible(false);
+        menu.findItem(R.id.action_create_group).setVisible(false);
 
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
