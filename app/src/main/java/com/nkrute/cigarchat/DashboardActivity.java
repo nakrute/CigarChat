@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.PopupMenu;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.nkrute.cigarchat.fragments.ChatListFragment;
+import com.nkrute.cigarchat.fragments.GroupChatFragment;
 import com.nkrute.cigarchat.fragments.HomeFragment;
 import com.nkrute.cigarchat.fragments.NotificationFragment;
 import com.nkrute.cigarchat.fragments.ProfileFragment;
@@ -31,6 +35,7 @@ public class DashboardActivity extends AppCompatActivity {
     ActionBar actionBar;
 
     String mUID;
+    private BottomNavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class DashboardActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         //bottom navigation
-        BottomNavigationView navigationView = findViewById(R.id.navigation);
+        navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
         // home fragment transaction (default on stage)
@@ -108,18 +113,45 @@ public class DashboardActivity extends AppCompatActivity {
                             ft4.replace(R.id.content, fragment4, "");
                             ft4.commit();
                             return true;
-                        case R.id.nav_notification:
-                            // users fragment transaction
-                            actionBar.setTitle("Notifications");
-                            NotificationFragment fragment5 = new NotificationFragment();
-                            androidx.fragment.app.FragmentTransaction ft5 = getSupportFragmentManager().beginTransaction();
-                            ft5.replace(R.id.content, fragment5, "");
-                            ft5.commit();
+                        case R.id.nav_more:
+                            showMoreOptions();
                             return true;
                     }
                     return false;
                 }
             };
+
+    private void showMoreOptions() {
+        PopupMenu popupMenu = new PopupMenu(this, navigationView, Gravity.END);
+
+        popupMenu.getMenu().add(Menu.NONE,0,0,"Notifications");
+        popupMenu.getMenu().add(Menu.NONE,1,0,"Group Chats");
+
+        //menu clicked
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == 0) {
+                    //notifications clicked
+                    actionBar.setTitle("Notifications");
+                    NotificationFragment fragment5 = new NotificationFragment();
+                    androidx.fragment.app.FragmentTransaction ft5 = getSupportFragmentManager().beginTransaction();
+                    ft5.replace(R.id.content, fragment5, "");
+                    ft5.commit();
+                }
+                else if (id == 1) {
+                    actionBar.setTitle("Group Chats");
+                    GroupChatFragment fragment6 = new GroupChatFragment();
+                    androidx.fragment.app.FragmentTransaction ft6 = getSupportFragmentManager().beginTransaction();
+                    ft6.replace(R.id.content, fragment6, "");
+                    ft6.commit();
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
 
     private void checkUserStatus() {
         // get current user
