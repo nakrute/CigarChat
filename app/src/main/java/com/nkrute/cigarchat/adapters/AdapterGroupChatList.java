@@ -1,6 +1,7 @@
 package com.nkrute.cigarchat.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.transition.Hold;
+import com.nkrute.cigarchat.GroupCreateActivity;
 import com.nkrute.cigarchat.R;
 import com.nkrute.cigarchat.models.ModelGroupChatList;
 import com.squareup.picasso.Picasso;
@@ -41,7 +43,7 @@ public class AdapterGroupChatList extends RecyclerView.Adapter<AdapterGroupChatL
     public void onBindViewHolder(@NonNull AdapterGroupChatList.HolderGroupChatList holder, int position) {
         //get data
         ModelGroupChatList model = groupChatLists.get(position);
-        String groupId = model.getGroupId();
+        final String groupId = model.getGroupId();
         String groupIcon = model.getGroupIcon();
         String groupTitle = model.getGroupTitle();
 
@@ -57,7 +59,9 @@ public class AdapterGroupChatList extends RecyclerView.Adapter<AdapterGroupChatL
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, GroupCreateActivity.class);
+                intent.putExtra("groupId", groupId);
+                context.startActivity(intent);
             }
         });
     }
