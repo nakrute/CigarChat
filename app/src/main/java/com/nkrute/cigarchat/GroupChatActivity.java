@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,7 +34,7 @@ import java.util.HashMap;
 
 public class GroupChatActivity extends AppCompatActivity {
 
-    private String groupId;
+    private String groupId, myGroupRole="";
 
     private Toolbar toolbar;
     private ImageView groupIconIv;
@@ -58,6 +60,8 @@ public class GroupChatActivity extends AppCompatActivity {
         messageEt = findViewById(R.id.messageEt);
         chatRv = findViewById(R.id.chatRv);
 
+        setSupportActionBar(toolbar);
+
         //get id of the group
         Intent intent = getIntent();
         groupId = intent.getStringExtra("groupId");
@@ -65,6 +69,7 @@ public class GroupChatActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         loadGroupInfo();
         loadGroupMessages();
+        loadMyGroupRole();
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             String message = messageEt.getText().toString().trim();
@@ -78,6 +83,27 @@ public class GroupChatActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void loadMyGroupRole() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groups");
+        ref.child(groupId).child("Participants")
+                .orderByChild("uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds: snapshot.getChildren()) {
+                            myGroupRole = ""+ds.child("role").getValue();
+                            //refresh menu item
+                            invalidateOptionsMenu();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void loadGroupMessages() {
@@ -164,5 +190,35 @@ public class GroupChatActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        menu.findItem(R.id.action_settings).setVisible(false);
+        menu.findItem(R.id.action_create_group).setVisible(false);
+        menu.findItem(R.id.action_add_post).setVisible(false);
+        menu.findItem(R.id.action_logout).setVisible(false);
+
+        if (myGroupRole.equals("creator") || myGroupRole.equals("admin")) {
+            //admin/creator
+            menu.findItem(R.id.action_add_participant).setVisible(true);
+        }
+        else {
+          menu.findItem(R.id.action_add_participant).setVisible(false);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_add_participant) {
+            Intent intent = new Intent(this, GroupChatActivity.class);
+            intent.putExtra("groupId", groupId);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
