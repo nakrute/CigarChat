@@ -23,6 +23,8 @@
         <activity android:name=".GroupCreateActivity" />
         <activity android:name=".PostLikedByActivity" />
         <activity android:name=".PostDetailActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ThereProfileActivity" />
         <activity android:name=".AddPostActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

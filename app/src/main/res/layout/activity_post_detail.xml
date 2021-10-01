@@ -38,8 +38,8 @@
                     android:orientation="horizontal"
                     android:layout_gravity="center_vertical">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/uPictureIv"
+                    <ImageView
+                        android:id="@+id/uPicctureIv"
                         android:src="@drawable/ic_default_img"
                         android:layout_width="50dp"
                         android:layout_height="50dp"/>
@@ -174,7 +174,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/cAvatarIv"

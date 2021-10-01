@@ -1,6 +1,8 @@
 package com.nkrute.cigarchat;
 
 import android.content.Intent;
+import android.media.ExifInterface;
+import android.opengl.Matrix;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.TextUtils;

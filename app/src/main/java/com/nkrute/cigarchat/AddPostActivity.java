@@ -147,8 +147,6 @@ public class AddPostActivity extends AppCompatActivity {
             uploadBtn.setText("Upload");
         }
 
-        actionBar.setSubtitle(email);
-
         userDbRef = FirebaseDatabase.getInstance().getReference("Users");
         Query query = userDbRef.orderByChild("email").equalTo(email);
         query.addValueEventListener(new ValueEventListener() {
@@ -736,6 +734,11 @@ public class AddPostActivity extends AppCompatActivity {
 
         menu.findItem(R.id.action_add_post).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
+        menu.findItem(R.id.action_groupinfo).setVisible(false);
+        menu.findItem(R.id.action_add_participant).setVisible(false);
+        menu.findItem(R.id.action_create_group).setVisible(false);
+        menu.findItem(R.id.action_settings).setVisible(false);
+        menu.findItem(R.id.action_logout).setVisible(false);
 
         return super.onCreateOptionsMenu(menu);
     }

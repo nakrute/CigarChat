@@ -175,7 +175,6 @@ public class ProfileFragment extends Fragment {
                     catch (Exception e) {
 
                     }
-
                 }
             }
 

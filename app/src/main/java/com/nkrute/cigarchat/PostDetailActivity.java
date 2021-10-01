@@ -86,16 +86,16 @@ public class PostDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_detail);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Post Detail");
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Post Details");
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
 
         // get id of post using intent
         Intent intent = getIntent();
         postId = intent.getStringExtra("postId");
 
         // init views
-        // uPictureIv = findViewById(R.id.uPictureIv);
+        uPictureIv = findViewById(R.id.uPictureIv);
         pImageIv = findViewById(R.id.pImageIv);
         uNameTv = findViewById(R.id.uNameTv);
         pTimeTiv = findViewById(R.id.pTimeTv);
@@ -111,7 +111,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
         commentEt = findViewById(R.id.commentEt);
         sendBtn = findViewById(R.id.sendBtn);
-        // cAvatarIv = findViewById(R.id.cAvatarIv);
+        cAvatarIv = findViewById(R.id.cAvatarIv);
 
         loadPostInfo();
         checkUserStatus();
@@ -119,9 +119,6 @@ public class PostDetailActivity extends AppCompatActivity {
         loadUserInfo();
 
         setLikes();
-
-        //set subtime of actionbar
-        actionBar.setSubtitle("SignedIn as:" +myEmail);
 
         loadComments();
 
@@ -577,7 +574,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     //set user dp
                     if (pImage.equals("noImage")) {
                         //hide imageview
-                        //pImageIv.setVisibility(View.GONE);
+                        pImageIv.setVisibility(View.GONE);
                     }
                     else {
                         //pImageIv.setVisibility(View.VISIBLE);
@@ -591,10 +588,10 @@ public class PostDetailActivity extends AppCompatActivity {
 
                     // set user image in comment part
                     try {
-                        // Picasso.get().load(hisDp).placeholder(R.drawable.ic_default_img).into(uPictureIv);
+                        Picasso.get().load(hisDp).placeholder(R.drawable.ic_default_img).into(uPictureIv);
                     }
                     catch (Exception e) {
-                        // Picasso.get().load(R.drawable.ic_default_img).into(uPictureIv);
+                        //Picasso.get().load(R.drawable.ic_default_img).into(uPictureIv);
                     }
                 }
             }
@@ -633,6 +630,8 @@ public class PostDetailActivity extends AppCompatActivity {
         menu.findItem(R.id.action_add_post).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
         menu.findItem(R.id.action_groupinfo).setVisible(false);
+        menu.findItem(R.id.action_create_group).setVisible(false);
+        menu.findItem(R.id.action_add_participant).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
