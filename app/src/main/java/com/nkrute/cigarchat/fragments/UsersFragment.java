@@ -86,9 +86,14 @@ public class UsersFragment extends Fragment {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
                     ModelUser modelUser = ds.getValue(ModelUser.class);
 
-                    //get all users except current
-                    if (!modelUser.getUid().equals(fUser.getUid())) {
-                        userList.add(modelUser);
+                    try {
+                        //get all users except current
+                        if (!modelUser.getUid().equals(fUser.getUid())) {
+                            userList.add(modelUser);
+                        }
+                    }
+                    catch (Exception e) {
+
                     }
 
                     // adapter
